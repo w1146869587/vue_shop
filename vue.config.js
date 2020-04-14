@@ -1,3 +1,5 @@
 module.exports = {
-    open:true     
+    devServer:{
+        open:true,
+    }   
 }
