@@ -30,7 +30,7 @@
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="状态" prop="mg_state">
           <template slot-scope="item">
-            <el-switch v-model="item.row.mg_state"></el-switch>
+            <el-switch v-model="item.row.mg_state" @change="userStateChanged(item.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
@@ -100,6 +100,15 @@ export default {
       console.log(newPage)
       this.queryInfo.pagenum = newPage
       this.getUerList()
+    },
+    // 监听状态改变
+    async userStateChanged(userinfo) {
+      const { data: res } = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
+      if (res.meta.status !== 200) {
+        userinfo.mg_state = !userinfo.mg_state
+        return this.$message.error('更新用户状态失败！')
+      }
+      this.$message.success('更新用户状态失败！')
     }
   }
 }
